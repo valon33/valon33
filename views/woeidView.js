@@ -47,15 +47,15 @@ export const woeidToday = (n, data, d) => {
 
               <div class="wind-icons">
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-umbrella"></use>
+                  <use xlink:href="../img/sprite.svg#icon-umbrella"></use>
                 </svg>
                 <span>${data[0].humidity}%</span>
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-wind"></use>
+                  <use xlink:href="../img/sprite.svg#icon-wind"></use>
                 </svg>
                 <span>${Math.round(data[0].wind_speed)}km/h</span>
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-compass"></use>
+                  <use xlink:href="../img/sprite.svg#icon-compass"></use>
                 </svg>
                 <span>${widnDirection(data[0].wind_direction_compass)}</span>
               </div>

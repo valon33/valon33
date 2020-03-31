@@ -312,9 +312,9 @@ const weatherBasedOnGeoLocation = res => {
         </div>
       </div>
       <div class="icon__section-today">
-      <span><img src="images/icon-umberella.png" alt="">${res.humidity}</span>
-      <span><img src="images/icon-wind.png" alt="">${res.windSpeed}</span>
-      <span><img src="images/icon-compass.png" alt="">${res.windSpeed}</span>
+      <span><img src="../img/icon-umberella.png" alt="">${res.humidity}</span>
+      <span><img src="../img/icon-wind.png" alt="">${res.windSpeed}</span>
+      <span><img src="../img/icon-compass.png" alt="">${res.windSpeed}</span>
     </div>
   </div>
 </div>
@@ -521,15 +521,15 @@ const woeidToday = (n, data, d) => {
 
               <div class="wind-icons">
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-umbrella"></use>
+                  <use xlink:href="../img/sprite.svg#icon-umbrella"></use>
                 </svg>
                 <span>${data[0].humidity}%</span>
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-wind"></use>
+                  <use xlink:href="../img/sprite.svg#icon-wind"></use>
                 </svg>
                 <span>${Math.round(data[0].wind_speed)}km/h</span>
                 <svg class="icon__small">
-                  <use xlink:href="./img/sprite.svg#icon-compass"></use>
+                  <use xlink:href="../img/sprite.svg#icon-compass"></use>
                 </svg>
                 <span>${(0, _utils.widnDirection)(data[0].wind_direction_compass)}</span>
               </div>
@@ -690,7 +690,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3896" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11959" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

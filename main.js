@@ -15,7 +15,7 @@ import {
     cityRender,
     getInput,
     clearInput,
-    renderError,
+    renderError
 } from "./views/searchView";
 import { woeidToday } from "./views/woeidView";
 
@@ -81,7 +81,7 @@ const cityController = async e => {
         console.log(e.target);
         try {
             await state.d.getResults();
-            
+
             clearPage();
             renderLoader(elements.body);
             if (state.d) {

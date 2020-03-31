@@ -14,9 +14,9 @@ export const weatherBasedOnGeoLocation = res => {
         </div>
       </div>
       <div class="icon__section-today">
-      <span><img src="images/icon-umberella.png" alt="">${res.humidity}</span>
-      <span><img src="images/icon-wind.png" alt="">${res.windSpeed}</span>
-      <span><img src="images/icon-compass.png" alt="">${res.windSpeed}</span>
+      <span><img src="../img/icon-umberella.png" alt="">${res.humidity}</span>
+      <span><img src="../img/icon-wind.png" alt="">${res.windSpeed}</span>
+      <span><img src="../img/icon-compass.png" alt="">${res.windSpeed}</span>
     </div>
   </div>
 </div>
