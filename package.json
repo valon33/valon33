@@ -9,7 +9,7 @@
   "author": "Valon Saidi",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "parcel-bundler": "^1.12.4"
   },
   "browserslist": [
