@@ -167,10 +167,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.getWeatherAW = getWeatherAW;
 
 async function getWeatherAW(lat, lng) {
-  const cors = "https://cors-anywhere.herokuapp.com/";
+  // const cors = "https://cors-anywhere.herokuapp.com/";
+  const cors = '';
   const key = "c3ec3275ce5f8cd5db0d598678dd0825";
   const result = await fetch(`${cors}http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
-        `);
+        ` // `http://api.openweathermap.org/data/2.5/weather?q=london&appid=0a2612723b6d6bd2a53dad2bdd77cba5
+  // `
+  );
   const data = await result.json(); // console.log(data);
 
   const res = {
@@ -200,7 +203,7 @@ async function getWeatherAW(lat, lng) {
 // };
 // getIcon();
 },{}],"img/svg/spinner9.svg":[function(require,module,exports) {
-module.exports = '#100738e6f15853e06ebc62487422b981';
+module.exports = '#72cda10f669f41d1d88aad2795c06112';
 },{}],"utils/utils.js":[function(require,module,exports) {
 "use strict";
 
@@ -284,7 +287,7 @@ const converDate = d => {
 
 exports.converDate = converDate;
 },{"../img/svg/spinner9":"img/svg/spinner9.svg"}],"img/svg/plus-outline.svg":[function(require,module,exports) {
-module.exports = '#73a68737f144f4e35837e0f501e05a3b';
+module.exports = '#34f98b3929cd4432c834121220af125b';
 },{}],"views/currentView.js":[function(require,module,exports) {
 "use strict";
 
@@ -348,12 +351,23 @@ class Search {
   }
 
   async getResults() {
-    const proxy = "https://cors-anywhere.herokuapp.com/";
+    // const proxy = "https://cors-anywhere.herokuapp.com/";
+    // const proxy = "https://cors-proxy.htmldriven.com/";
+    const proxy = "";
 
     try {
-      const res = await fetch(`${proxy}https://www.metaweather.com/api/location/search/?query=${this.query}`);
-      this.data = await res.json(); // console.log(data);
+      const res = await fetch( // `${proxy}https://www.metaweather.com/api/location/search/?query=${this.query}`,
+      `https://www.metaweather.com/api/location/search/?query=london`, {
+        method: "GET",
+        mode: "no-cors" // headers: {
+        //     "Content-Type": "application/json",
+        //     "Access-Control-Allow-Origin":
+        //         "https://www.metaweather.com",
+        // },
 
+      });
+      this.data = await res.json();
+      console.log(data);
       this.name = await this.data[0].title;
       this.woeid = await this.data[0].woeid;
       this.lantLang = await this.data[0].latt_long; // console.log(this.result);
@@ -583,7 +597,7 @@ const weatherOnGeoLocation = async () => {
     (0, _currentView.weatherBasedOnGeoLocation)(state.w);
     (0, _currentView.adIcon)();
   } catch (error) {
-    console.log(error.message, error.status);
+    console.log(error.message, error.status, error.stack);
   }
 };
 
@@ -690,7 +704,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11959" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "10057" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -31,7 +31,7 @@ const weatherOnGeoLocation = async () => {
         weatherBasedOnGeoLocation(state.w);
         adIcon();
     } catch (error) {
-        console.log(error.message, error.status);
+        console.log(error.message, error.status, error.stack);
     }
 };
 
