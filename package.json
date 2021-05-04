@@ -4,6 +4,7 @@
   "description": "weather app",
   "main": "main.js",
   "scripts": {
+    "start": "parcel index.html",
     "build": "parcel build index.html"
   },
   "author": "Valon Saidi",
