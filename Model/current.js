@@ -1,6 +1,6 @@
 export async function getWeatherAW(lat, lng) {
     // const cors = "https://cors-anywhere.herokuapp.com/";
-    const cors = '';
+    const cors = "https://cors-anywhere.herokuapp.com/";
     const key = "c3ec3275ce5f8cd5db0d598678dd0825";
     const result = await fetch(
         `${cors}http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
@@ -25,7 +25,7 @@ export async function getWeatherAW(lat, lng) {
         sunset: data.sys.sunset,
         id: data.id,
         name: data.name,
-        country: data.sys.country
+        country: data.sys.country,
     };
     // console.log(res);
 
