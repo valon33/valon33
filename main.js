@@ -5,7 +5,7 @@ import {
     elements,
     clearPage,
     clearAddIcon,
-    clearLoader
+    clearLoader,
 } from "./utils/utils";
 import { weatherBasedOnGeoLocation, adIcon } from "./views/currentView";
 import Search from "./Model/search";
@@ -15,7 +15,7 @@ import {
     cityRender,
     getInput,
     clearInput,
-    renderError
+    renderError,
 } from "./views/searchView";
 import { woeidToday } from "./views/woeidView";
 
@@ -37,7 +37,7 @@ const weatherOnGeoLocation = async () => {
 
 window.addEventListener("load", weatherOnGeoLocation);
 
-elements.addIcon.addEventListener("click", e => {
+elements.addIcon.addEventListener("click", (e) => {
     const btn = e.target.closest(".icon__add");
 
     if (btn) {
@@ -59,7 +59,8 @@ const controlSearch = async () => {
         renderLoader(elements.body);
 
         try {
-            const d = await state.search.getResults();
+            await state.search.getResults();
+           
             if (state.search) {
                 clearLoader();
                 cityRender(state.search);
@@ -72,7 +73,7 @@ const controlSearch = async () => {
     }
 };
 
-const cityController = async e => {
+const cityController = async (e) => {
     const data = await e.target.closest(".city__woied").dataset.woeid;
     if (data) {
         console.log(data);
@@ -98,12 +99,12 @@ const cityController = async e => {
     }
 };
 
-elements.body.addEventListener("click", e => {
+elements.body.addEventListener("click", (e) => {
     const form = e.target.closest(".find-location");
     const city = e.target.closest(".city__woied");
 
     if (form) {
-        form.addEventListener("submit", e => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
             controlSearch();
         });
