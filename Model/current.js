@@ -3,7 +3,7 @@ export async function getWeatherAW(lat, lng) {
     const cors = "";
     const key = "c3ec3275ce5f8cd5db0d598678dd0825";
     const result = await fetch(
-        `https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
+        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
         `
         // `http://api.openweathermap.org/data/2.5/weather?q=london&appid=0a2612723b6d6bd2a53dad2bdd77cba5
         // `
