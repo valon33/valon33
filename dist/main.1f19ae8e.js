@@ -168,9 +168,9 @@ exports.getWeatherAW = getWeatherAW;
 
 async function getWeatherAW(lat, lng) {
   // const cors = "https://cors-anywhere.herokuapp.com/";
-  const cors = '';
+  const cors = "";
   const key = "c3ec3275ce5f8cd5db0d598678dd0825";
-  const result = await fetch(`${cors}http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
+  const result = await fetch(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
         ` // `http://api.openweathermap.org/data/2.5/weather?q=london&appid=0a2612723b6d6bd2a53dad2bdd77cba5
   // `
   );
@@ -2456,7 +2456,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "13818" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14173" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
