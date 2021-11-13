@@ -10,8 +10,8 @@
   "author": "Valon Saidi",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.1",
-    "parcel-bundler": "^1.12.4"
+    "axios": "^0.24.0",
+    "parcel-bundler": "^1.12.5"
   },
   "browserslist": [
     "last 1 chrome versions"
@@ -20,7 +20,7 @@
     "parcel-plugin-svg-sprite": "^1.4.1"
   },
   "engines": {
-    "node": "^10"
+    "node": "^16"
   },
-  "proxy": "https://cors-anywhere.herokuapp.com/corsdemo"
+  "proxy": "*"
 }

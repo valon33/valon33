@@ -29,7 +29,6 @@ export async function getCoords() {
             long: data.coords.longitude
         };
         return cords;
-        // console.log(coords);
     } catch (err) {
         console.log(err);
     }
