@@ -207,7 +207,7 @@ module.exports = '#72cda10f669f41d1d88aad2795c06112';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.widnDirection = exports.renderLoader = exports.getDay = exports.elements = exports.converDate = exports.clearPage = exports.clearLoader = exports.clearAddIcon = void 0;
+exports.widnDirection = exports.renderLoader = exports.getPartOfTheDay = exports.getDay = exports.elements = exports.countryCodeToCountryName = exports.convertUnixTimeToDate = exports.converDate = exports.clearPage = exports.clearLoader = exports.clearAddIcon = void 0;
 
 var _spinner = _interopRequireDefault(require("../img/svg/spinner9"));
 
@@ -255,7 +255,7 @@ exports.clearAddIcon = clearAddIcon;
 
 const getDay = date => {
   const weekDays = ["Sunday ", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const d = new Date(date);
+  const d = new Date(date * 1000);
   const day = d.getDay();
   const currDay = weekDays[day];
   return currDay;
@@ -263,19 +263,53 @@ const getDay = date => {
 
 exports.getDay = getDay;
 
+const convertUnixTimeToDate = timestamp => new Date(timestamp * 1000).toLocaleDateString("en-US");
+
+exports.convertUnixTimeToDate = convertUnixTimeToDate;
+
 const widnDirection = windD => {
-  if (windD.startsWith("E")) {
-    return "East";
-  } else if (windD.startsWith("W")) {
-    return "West";
-  } else if (windD.startsWith("S")) {
-    return "South";
-  } else {
+  if (windD > 348.75 && windD < 11.25) {
     return "North";
+  } else if (windD > 11.25 && windD < 33.75) {
+    return "North North East";
+  } else if (windD > 33.75 && windD < 56.25) {
+    return "North East";
+  } else if (windD > 56.25 && windD < 78.75) {
+    return "East North East";
+  } else if (windD > 78.75 && windD < 101.25) {
+    return "East";
+  } else if (windD > 101.25 && windD < 123.75) {
+    return "East South East";
+  } else if (windD > 123.75 && windD < 146.25) {
+    return "South East";
+  } else if (windD > 146.25 && windD < 168.75) {
+    return "South South East";
+  } else if (windD > 168.75 && windD < 191.25) {
+    return "South";
+  } else if (windD > 191.25 && windD < 213.75) {
+    return "South South West";
+  } else if (windD > 213.75 && windD < 236.25) {
+    return "South West";
+  } else if (windD > 236.25 && windD < 258.75) {
+    return "West South West";
+  } else if (windD > 258.75 && windD < 281.25) {
+    return "West";
+  } else if (windD > 281.25 && windD < 303.75) {
+    return "West North West";
+  } else if (windD > 303.75 && windD < 326.25) {
+    return "North West";
+  } else if (windD > 326.25 && windD < 348.75) {
+    return "North North West";
   }
 };
 
 exports.widnDirection = widnDirection;
+
+const countryCodeToCountryName = code => new Intl.DisplayNames(["en"], {
+  type: "region"
+}).of(code);
+
+exports.countryCodeToCountryName = countryCodeToCountryName;
 
 const converDate = d => {
   const reversDate = d.split("-").reverse().join("-");
@@ -283,6 +317,23 @@ const converDate = d => {
 };
 
 exports.converDate = converDate;
+
+const getPartOfTheDay = data => {
+  const d = new Date();
+  const hour = d.getHours();
+
+  if (hour > 4 && hour < 9) {
+    return data.morn;
+  } else if (hour > 9 && hour < 17) {
+    return data.day;
+  } else if (hour > 17 && hour < 23) {
+    return data.eve;
+  } else if (hour > 23 && hour < 4) {
+    return data.night;
+  }
+};
+
+exports.getPartOfTheDay = getPartOfTheDay;
 },{"../img/svg/spinner9":"img/svg/spinner9.svg"}],"img/svg/plus-outline.svg":[function(require,module,exports) {
 module.exports = '#34f98b3929cd4432c834121220af125b';
 },{}],"views/currentView.js":[function(require,module,exports) {
@@ -2448,18 +2499,16 @@ class Search {
   }
 
   async getResults() {
-    try {
-      console.log(this.query);
-      const proxy = "https://cors-anywhere.herokuapp.com/";
-      const res = await _axios.default.get(`https://www.metaweather.com/api/location/search/?query=san`, {
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:1234/" // "Content-Type": "application/json",
+    console.log(this.query);
+    const key = "0a2612723b6d6bd2a53dad2bdd77cba5";
 
-        }
-      });
-      this.name = res.data[0].title;
-      this.woeid = res.data[0].woeid;
-      this.lantLang = res.data[0].latt_long;
+    try {
+      const res = await _axios.default.get(`http://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`); // .then((res) => console.log(res.data));
+
+      console.log(res.data);
+      this.data = res.data; //     this.name = res.data[0].title;
+      //     this.woeid = res.data[0].woeid;
+      //     this.lantLang = res.data[0].latt_long;
     } catch (error) {
       console.log(error);
     }
@@ -2476,30 +2525,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 class WoeID {
   constructor(woeid) {
-    this.woeid = woeid;
+    this.lat = woeid.split(" ")[0];
+    this.lon = woeid.split(" ")[1];
   }
 
   async getResults() {
-    const proxy = "https://cors-anywhere.herokuapp.com/";
+    const key = "0a2612723b6d6bd2a53dad2bdd77cba5";
+    const part = "minutely,hourly";
 
     try {
-      const res = await fetch(`https://www.metaweather.com/api/location/${this.woeid}` // `${proxy}https://www.metaweather.com/api/location/${this.woeid}`
-      );
-      const data = await res.json(); // if (data) {
-      //     this.consolidatedData = Array.from(data.consolidated_weather);
-      //     // this.short = Array.from(data.consolidated_weather).splice(1);
-      //     this.name = data.title;
-      // }
-
-      if (data) {
-        this.consolidatedData = {
-          dataComplete: Array.from(data.consolidated_weather).splice(0, 1),
-          dataShort: Array.from(data.consolidated_weather).splice(1),
-          dataName: data.title
-        };
-      }
+      const res = await _axios.default.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.lat}&lon=${this.lon}&units=metric&exclude=${part}&appid=${key}`);
+      console.log(res);
+      this.data = {
+        current: res.data.current,
+        today: res.data.daily[0],
+        daily: res.data.daily.slice(1)
+      };
+      console.log(this.data);
     } catch (error) {
       console.log(error);
     }
@@ -2508,7 +2556,7 @@ class WoeID {
 }
 
 exports.default = WoeID;
-},{}],"views/searchView.js":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js"}],"views/searchView.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2535,11 +2583,11 @@ exports.searchView = searchView;
 
 const cityRender = res => {
   const markup = `
-    <div class="city__woied" data-woeid="${res.woeid}">
-        <h1 class="city__name">
+    <div class="city__woied" data-latlong="${res.lat} ${res.lon}">
+        <h1 class="city__name" data-cityname="${res.name}" data-country="${res.country}" >
         - ${res.name} -
         </h1>
-        <p class="city__latlong">${res.lantLang.split(",").join(" ")}</p>
+        <p class="city__latlong">${res.lat} ${res.lon}</p>
         </div>
 `;
   document.querySelector(".container-input").insertAdjacentHTML("afterend", markup);
@@ -2585,41 +2633,42 @@ var _utils = require("../utils/utils");
 const createDay = data => {
   return `<div class="forecast ">
 <div class="forecast-header">
-  <div class="day">${(0, _utils.getDay)(data.applicable_date)}</div>
+  <div class="day">${(0, _utils.convertUnixTimeToDate)(data.dt)}</div>
 </div>
 
 <div class="forecast-content">
   <div class="forecast-icon">
-    <img src="https://www.metaweather.com/static/img/weather/${data.weather_state_abbr}.svg" alt="" width=48>
+  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="" width=90>
   </div>
   <div class="temp">
-    <div class="degree">${Math.round(data.the_temp)}&#176;C</div>
+    <div class="degree">${Math.round(data.temp.day)}&#176;C</div>
     <div class="min_temp">
-    <small>Max: ${Math.round(data.max_temp)}&#176;</small>
-    <small>Min: ${Math.round(data.min_temp)}&#176;</small>
+    <small>Max: ${Math.round(data.temp.max)}&#176;</small>
+    <small>Min: ${Math.round(data.temp.min)}&#176;</small>
   </div>
   </div>
 </div>
 </div>`;
 };
 
-const woeidToday = (n, data, d) => {
+const woeidToday = (name, country, data) => {
+  const part = (0, _utils.getPartOfTheDay)(data.today.temp);
   const markup = `
     <div class="forecast-table">
       <div class="container">
         <div class="forecast-container">
           <div class="today forecast">
             <div class="forecast-header forecast-header-today">
-              <div class="day">${(0, _utils.getDay)(data[0].applicable_date)}</div>
-              <div class="date">${(0, _utils.converDate)(data[0].applicable_date)}</div>
+              <div class="day">${(0, _utils.getDay)(data.today.dt)}</div>
+              <div class="date">${(0, _utils.convertUnixTimeToDate)(data.today.dt)}</div>
             </div>
 
             <div class="forecast-content forecast-content-today">
-              <div class="location">${n}</div>
+              <div class="location">${name} ${country}</div>
               <div class="degree">
-                <div class="num">${Math.round(data[0].the_temp)}&#176;C</div>
+                <div class="num">${Math.round(part)}&#176;C</div>
                 <div class="forecast-icon">
-                  <img src="https://www.metaweather.com/static/img/weather/${data[0].weather_state_abbr}.svg" alt="" width=90>
+                  <img src="http://openweathermap.org/img/wn/${data.today.weather[0].icon}@2x.png" alt="" width=90>
                 </div>
               </div>
 
@@ -2627,27 +2676,29 @@ const woeidToday = (n, data, d) => {
                 <svg class="icon__small">
                   <use xlink:href="../img/sprite.svg#icon-umbrella"></use>
                 </svg>
-                <span>${data[0].humidity}%</span>
+                <span>${data.today.humidity}%</span>
                 <svg class="icon__small">
                   <use xlink:href="../img/sprite.svg#icon-wind"></use>
                 </svg>
-                <span>${Math.round(data[0].wind_speed)}km/h</span>
+                <span>${Math.round(data.today.wind_speed)}km/h</span>
                 <svg class="icon__small">
                   <use xlink:href="../img/sprite.svg#icon-compass"></use>
                 </svg>
-                <span>${(0, _utils.widnDirection)(data[0].wind_direction_compass)}</span>
-              </div>
-            </div>
+                <span>${(0, _utils.widnDirection)(data.today.wind_deg)}</span>
+                <span>${data.today.clouds}</span>
+                </div>
+                </div>
 
-          </div>
+                </div>
 
-      ${d.map(el => createDay(el)).join("")}
-              
-        </div>
-      </div>
-    </div>`;
+                ${data.daily.map(el => createDay(el)).join("")}
+
+                </div>
+                </div>
+                </div>`;
   _utils.elements.body.innerHTML = markup;
-};
+}; // <span>${widnDirection(current.wind_deg)}</span>
+
 
 exports.woeidToday = woeidToday;
 },{"../utils/utils":"utils/utils.js"}],"main.js":[function(require,module,exports) {
@@ -2718,7 +2769,12 @@ const controlSearch = async () => {
 
       if (state.search) {
         (0, _utils.clearLoader)();
-        (0, _searchView.cityRender)(state.search);
+        state.search.data.map(city => {
+          (0, _searchView.cityRender)(city);
+        });
+        const cities = document.querySelectorAll(".city__woied");
+        const citiesArray = [...cities];
+        cityController(citiesArray);
       }
     } catch (err) {
       (0, _searchView.renderError)(state.search);
@@ -2728,32 +2784,36 @@ const controlSearch = async () => {
   }
 };
 
-const cityController = async e => {
-  const data = await e.target.closest(".city__woied").dataset.woeid;
+const queryCityData = async () => {
+  try {
+    await state.d.getResults();
+    (0, _utils.clearPage)();
+    (0, _utils.renderLoader)(_utils.elements.body);
+    console.log("ho be", state.d);
 
-  if (data) {
-    console.log(data);
-    state.d = new _woeId.default(data);
-    console.log(e.target);
-
-    try {
-      await state.d.getResults();
-      (0, _utils.clearPage)();
-      (0, _utils.renderLoader)(_utils.elements.body);
-
-      if (state.d) {
-        (0, _utils.clearLoader)();
-        (0, _woeidView.woeidToday)(state.d.consolidatedData.dataName, state.d.consolidatedData.dataComplete, state.d.consolidatedData.dataShort);
-      }
-    } catch (err) {
-      console.log(err);
+    if (state.d) {
+      (0, _utils.clearLoader)();
+      (0, _woeidView.woeidToday)(state.cityName, state.countryName, state.d.data);
     }
+  } catch (err) {
+    console.log(err);
   }
+};
+
+const cityController = async citiesArray => {
+  citiesArray.map(city => city.addEventListener("click", e => {
+    e.stopPropagation();
+    const data = e.target.closest(".city__woied").dataset.latlong;
+    state.cityName = e.target.closest(".city__name").dataset.cityname;
+    state.countryName = (0, _utils.countryCodeToCountryName)(e.target.closest(".city__name").dataset.country);
+    state.d = new _woeId.default(data);
+    queryCityData();
+  }));
+  console.log("State Manaxhment", state);
 };
 
 _utils.elements.body.addEventListener("click", e => {
   const form = e.target.closest(".find-location");
-  const city = e.target.closest(".city__woied");
 
   if (form) {
     form.addEventListener("submit", e => {
@@ -2761,11 +2821,7 @@ _utils.elements.body.addEventListener("click", e => {
       controlSearch();
     });
   }
-
-  if (city) {
-    city.addEventListener("click", cityController);
-  }
-}); // "proxy": "https://cors-anywhere.herokuapp.com/corsdemo"
+});
 },{"./Model/location":"Model/location.js","./Model/current":"Model/current.js","./utils/utils":"utils/utils.js","./views/currentView":"views/currentView.js","./Model/search":"Model/search.js","./Model/woeId":"Model/woeId.js","./views/searchView":"views/searchView.js","./views/woeidView":"views/woeidView.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -2794,7 +2850,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62930" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6458" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

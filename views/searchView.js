@@ -14,13 +14,13 @@ export const searchView = () => {
     elements.body.innerHTML = markup;
 };
 
-export const cityRender = res => {
+export const cityRender = (res) => {
     const markup = `
-    <div class="city__woied" data-woeid="${res.woeid}">
-        <h1 class="city__name">
+    <div class="city__woied" data-latlong="${res.lat} ${res.lon}">
+        <h1 class="city__name" data-cityname="${res.name}" data-country="${res.country}" >
         - ${res.name} -
         </h1>
-        <p class="city__latlong">${res.lantLang.split(",").join(" ")}</p>
+        <p class="city__latlong">${res.lat} ${res.lon}</p>
         </div>
 `;
 
@@ -29,7 +29,7 @@ export const cityRender = res => {
         .insertAdjacentHTML("afterend", markup);
 };
 
-export const renderError = res => {
+export const renderError = (res) => {
     const markup = `
   <div class="error">
     <h1>Something went wrong. Please try again! 😎</h1>
