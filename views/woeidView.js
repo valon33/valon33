@@ -57,9 +57,9 @@ export const woeidToday = (name, country, data) => {
                   <use xlink:href="../img/sprite.svg#icon-umbrella"></use>
                 </svg>
                 <span>${data.today.humidity}%</span>
-                <svg class="icon__small">
-                  <use xlink:href="../img/sprite.svg#icon-wind"></use>
-                </svg>
+                <div class="icon__small">
+                  <img src="../img/svg/wind.svg">
+                </div>
                 <span>${Math.round(data.today.wind_speed)}km/h</span>
                 <svg class="icon__small">
                   <use xlink:href="../img/sprite.svg#icon-compass"></use>
