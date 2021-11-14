@@ -2503,7 +2503,7 @@ class Search {
     const key = "0a2612723b6d6bd2a53dad2bdd77cba5";
 
     try {
-      const res = await _axios.default.get(`http://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`); // .then((res) => console.log(res.data));
+      const res = await _axios.default.get(`https://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`); // .then((res) => console.log(res.data));
 
       console.log(res.data);
       this.data = res.data; //     this.name = res.data[0].title;
@@ -2850,7 +2850,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6458" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "12256" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

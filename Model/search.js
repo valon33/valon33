@@ -10,7 +10,7 @@ export default class Search {
         const key = "0a2612723b6d6bd2a53dad2bdd77cba5";
         try {
             const res = await axios.get(
-                `http://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`
+                `https://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`
             );
             // .then((res) => console.log(res.data));
 
