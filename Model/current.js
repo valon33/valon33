@@ -1,9 +1,11 @@
 export async function getWeatherAW(lat, lng) {
-  const cors = "https://cors-anywhere.herokuapp.com/";
+  const mathceillat = Math.ceil(lat);
+  const mathceillng = Math.ceil(lng);
   const key = "c3ec3275ce5f8cd5db0d598678dd0825";
   const result = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
-        `
+    `https://api.openweathermap.org/data/2.5/weather?lat=${mathceillat}&lon=${mathceillng}&units=metric&APPID=${key}
+    `
+    // `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
   );
 
   const data = await result.json();

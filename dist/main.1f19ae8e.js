@@ -167,10 +167,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.getWeatherAW = getWeatherAW;
 
 async function getWeatherAW(lat, lng) {
-  const cors = "https://cors-anywhere.herokuapp.com/";
+  const mathceillat = Math.ceil(lat);
+  const mathceillng = Math.ceil(lng);
   const key = "c3ec3275ce5f8cd5db0d598678dd0825";
-  const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
-        `);
+  const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${mathceillat}&lon=${mathceillng}&units=metric&APPID=${key}
+    ` // `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
+  );
   const data = await result.json(); // console.log(data);
 
   const res = {
@@ -352,36 +354,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import plusOutline from "./img/svg/plus-outline";
 const weatherBasedOnGeoLocation = res => {
-  const markup = `
-
-  <div class="forecast__geolocation-today">
-        <div class="location__today">${res.name}</div>
+  const markup = `<div class="forecast__geolocation-today">
+      <div class="location__today">${res.name}</div>
       <div class="degree-today">
         <div class="num__today-temp">${res.temp}<sup>o</sup>C</div>
         <div class="forecast__icon-today">
-        <img src="http://openweathermap.org/img/wn/${res.icon}@2x.png" alt="" >
+          <img
+            src="http://openweathermap.org/img/wn/${res.icon}@2x.png"
+            alt=""
+            class="img"
+          />
         </div>
       </div>
       <div class="icon__section-today">
-
-      <span>
-      <svg class="icon__small">
-      <use xlink:href="sprite.svg#umbrella"></use>
-      </svg>
-      ${res.humidity}%
-      </span>
-      <span>
-      <svg class="icon__small">
-      <use xlink:href="sprite.svg#wind"></use>
-      </svg>
-      ${res.windSpeed}</span>
-      <span><svg class="icon__small">
-      <use xlink:href="sprite.svg#compass"></use>
-      </svg>
-      ${res.windSpeed}</span>
+        <span>
+          <svg class="icon__small">
+            <use xlink:href="sprite.svg#umbrella"></use>
+          </svg>
+          ${res.humidity}%
+        </span>
+        <span>
+          <svg class="icon__small">
+            <use xlink:href="sprite.svg#wind"></use>
+          </svg>
+          ${res.windSpeed}</span
+        >
+        <span
+          ><svg class="icon__small">
+            <use xlink:href="sprite.svg#compass"></use>
+          </svg>
+          ${res.windSpeed}</span
+        >
+      </div>
     </div>
-  </div>
-</div>
   `;
   _utils.elements.body.innerHTML = markup;
 };
@@ -389,10 +394,11 @@ const weatherBasedOnGeoLocation = res => {
 exports.weatherBasedOnGeoLocation = weatherBasedOnGeoLocation;
 
 const adIcon = () => {
-  const markup = `
-      <svg  class="icon__add" viewBox="0 0 100 100">
-        <use xlink:href="${_plusOutline.default}"></use>
+  const markup = `<div class="icon__add">
+      <svg>
+        <use xlink:href="sprite.svg#plus-outline"></use>
       </svg>
+    </div>
     `;
   _utils.elements.addIcon.innerHTML = markup;
 };
@@ -2582,12 +2588,12 @@ var _utils = require("../utils/utils");
 const searchView = () => {
   const markup = `
     <div class="hero">
-    <div class="container container-input">
-      <form  class="find-location" name="signup">
-        <input type="text" class="search__field" name="text" placeholder="Find your location...">
-        <input type="submit" name="submit" value="Find">
-      </form>
-    </div>
+        <div class="container container-input">
+          <form  class="find-location" name="signup">
+            <input type="text" class="search__field" name="text" placeholder="Find your location...">
+            <input type="submit" name="submit" value="Find">
+          </form>
+        </div>
      `;
   _utils.elements.body.innerHTML = markup;
 };
@@ -2596,13 +2602,12 @@ exports.searchView = searchView;
 
 const cityRender = res => {
   const markup = `
-    <div class="city__woied" data-latlong="${res.lat} ${res.lon}">
-        <h1 class="city__name" data-cityname="${res.name}" data-country="${res.country}" >
-        - ${res.name} -
-        </h1>
-        <p class="city__latlong">${res.lat} ${res.lon}</p>
-        </div>
-`;
+        <div class="city__woied" data-latlong="${res.lat} ${res.lon}">
+            <h1 class="city__name" data-cityname="${res.name}" data-country="${res.country}" >
+            ${res.name} - ${res.country}
+            </h1>
+            <p class="city__latlong">${res.lat} ${res.lon}</p>
+            </div>`;
   document.querySelector(".container-input").insertAdjacentHTML("afterend", markup);
 };
 
@@ -2644,78 +2649,87 @@ exports.woeidToday = void 0;
 var _utils = require("../utils/utils");
 
 const createDay = data => {
-  return `<div class="forecast ">
-<div class="forecast-header">
-  <div class="day">${(0, _utils.convertUnixTimeToDate)(data.dt)}</div>
-</div>
+  return `<div class="forecast">
+        <div class="forecast-header">
+          <div class="day">${(0, _utils.convertUnixTimeToDate)(data.dt)}</div>
+        </div>
 
-<div class="forecast-content">
-  <div class="forecast-icon">
-  <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="" width=90>
-  </div>
-  <div class="temp">
-    <div class="degree">${Math.round(data.temp.day)}&#176;C</div>
-    <div class="min_temp">
-    <small>Max: ${Math.round(data.temp.max)}&#176;</small>
-    <small>Min: ${Math.round(data.temp.min)}&#176;</small>
-  </div>
-  </div>
-</div>
-</div>`;
+        <div class="forecast-content-other">
+          <div class="forecast-icon">
+            <img
+              src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
+              alt=""
+              width="90"
+            />
+          </div>
+          <div class="temp">
+            <div class="degree">${Math.round(data.temp.day)}&#176;C</div>
+            <div class="min_temp">
+              <small>Max: ${Math.round(data.temp.max)}&#176;</small>
+              <small>Min: ${Math.round(data.temp.min)}&#176;</small>
+            </div>
+          </div>
+        </div>
+      </div>`;
 };
 
 const woeidToday = (name, country, data) => {
   const part = (0, _utils.getPartOfTheDay)(data.today.temp);
-  const markup = `
-    <div class="forecast-table">
-      <div class="container">
-        <div class="forecast-container">
-          <div class="today forecast">
-            <div class="forecast-header forecast-header-today">
-              <div class="day">${(0, _utils.getDay)(data.today.dt)}</div>
-              <div class="date">${(0, _utils.convertUnixTimeToDate)(data.today.dt)}</div>
-            </div>
+  const markup = `<div class="forecast-table">
+                <div class="today-forecast">
+                  <div class="forecast-header forecast-header-today">
+                    <div class="day">${(0, _utils.getDay)(data.today.dt)}</div>
+                    <div class="date">${(0, _utils.convertUnixTimeToDate)(data.today.dt)}</div>
+                  </div>
 
-            <div class="forecast-content forecast-content-today">
-              <div class="location">${name} ${country}</div>
-              <div class="degree">
-                <div class="num">${Math.round(part)}&#176;C</div>
-                <div class="forecast-icon">
-                  <img src="http://openweathermap.org/img/wn/${data.today.weather[0].icon}@2x.png" alt="" width=90>
-                </div>
-              </div>
+                  <div class="forecast-content forecast-content-today">
+                    <div class="location">${name} ${country}</div>
+                    <div class="forecast-today-temp">
+                      <div class="num">${Math.round(part)}&#176;C</div>
+                      <div class="forecast-icon">
+                        <img
+                          src="http://openweathermap.org/img/wn/${data.today.weather[0].icon}@2x.png"
+                          alt=""
+                          width="90"
+                        />
+                      </div>
+                    </div>
 
-              <div class="wind-icons">
-                <svg class="icon__small">
-                  <use xlink:href="sprite.svg#umbrella"></use>
-                </svg>
-                <span>${data.today.humidity}%</span>
-                <svg class="icon__small">
-                <use xlink:href="sprite.svg#wind"></use>
-                </svg>
-                <span>${Math.round(data.today.wind_speed)}km/h</span>
+                    <div class="wind-icons">
+                      <div class="wind-icons-svg">
+                        <svg class="icon__small">
+                          <use xlink:href="sprite.svg#umbrella"></use>
+                        </svg>
+                        <span>${data.today.humidity}%</span>
+                      </div>
+                      <div class="wind-icons-svg">
+                        <svg class="icon__small">
+                          <use xlink:href="sprite.svg#wind"></use>
+                        </svg>
+                        <span>${Math.round(data.today.wind_speed)}km/h</span>
+                      </div>
 
-                <svg class="icon__small">
-                  <use xlink:href="sprite.svg#compass"></use>
-                </svg>
-                <span>${(0, _utils.widnDirection)(data.today.wind_deg)}</span>
-                <svg class="icon__small" viewBox="0 0 32 32" id="compass">
-                <use xlink:href="sprite.svg#air"></use>
-              </svg>
-                <span>${data.today.clouds}</span>
-                </div>
-                </div>
-
+                      <div class="wind-icons-svg">
+                        <svg class="icon__small">
+                          <use xlink:href="sprite.svg#compass"></use>
+                        </svg>
+                        <span>${(0, _utils.widnDirection)(data.today.wind_deg)}</span>
+                      </div>
+                      <div class="wind-icons-svg">
+                        <svg class="icon__small" viewBox="0 0 32 32" id="compass">
+                          <use xlink:href="sprite.svg#air"></use>
+                        </svg>
+                        <span>${data.today.clouds}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 ${data.daily.map(el => createDay(el)).join("")}
 
-                </div>
-                </div>
-                </div>`;
+              </div>`;
   _utils.elements.body.innerHTML = markup;
-}; // <span>${widnDirection(current.wind_deg)}</span>
-
+};
 
 exports.woeidToday = woeidToday;
 },{"../utils/utils":"utils/utils.js"}],"main.js":[function(require,module,exports) {
@@ -2867,7 +2881,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "11269" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49503" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
