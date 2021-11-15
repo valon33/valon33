@@ -328,7 +328,7 @@ const getPartOfTheDay = data => {
     return data.day;
   } else if (hour > 17 && hour < 23) {
     return data.eve;
-  } else if (hour > 23 && hour < 4) {
+  } else if (hour > 23 || hour >= 0 || hour < 4) {
     return data.night;
   }
 };
@@ -363,9 +363,22 @@ const weatherBasedOnGeoLocation = res => {
         </div>
       </div>
       <div class="icon__section-today">
-      <span><img src="../img/icon-umberella.png" alt="">${res.humidity}</span>
-      <span><img src="../img/icon-wind.png" alt="">${res.windSpeed}</span>
-      <span><img src="../img/icon-compass.png" alt="">${res.windSpeed}</span>
+
+      <span>
+      <svg class="icon__small">
+      <use xlink:href="sprite.svg#umbrella"></use>
+      </svg>
+      ${res.humidity}%
+      </span>
+      <span>
+      <svg class="icon__small">
+      <use xlink:href="sprite.svg#wind"></use>
+      </svg>
+      ${res.windSpeed}</span>
+      <span><svg class="icon__small">
+      <use xlink:href="sprite.svg#compass"></use>
+      </svg>
+      ${res.windSpeed}</span>
     </div>
   </div>
 </div>
@@ -376,7 +389,7 @@ const weatherBasedOnGeoLocation = res => {
 exports.weatherBasedOnGeoLocation = weatherBasedOnGeoLocation;
 
 const adIcon = () => {
-  const markup = ` 
+  const markup = `
       <svg  class="icon__add" viewBox="0 0 100 100">
         <use xlink:href="${_plusOutline.default}"></use>
       </svg>
@@ -2674,17 +2687,21 @@ const woeidToday = (name, country, data) => {
 
               <div class="wind-icons">
                 <svg class="icon__small">
-                  <use xlink:href="../img/sprite.svg#icon-umbrella"></use>
+                  <use xlink:href="sprite.svg#umbrella"></use>
                 </svg>
                 <span>${data.today.humidity}%</span>
-                <div class="icon__small">
-                  <img src="../img/svg/wind.svg">
-                </div>
-                <span>${Math.round(data.today.wind_speed)}km/h</span>
                 <svg class="icon__small">
-                  <use xlink:href="../img/sprite.svg#icon-compass"></use>
+                <use xlink:href="sprite.svg#wind"></use>
+                </svg>
+                <span>${Math.round(data.today.wind_speed)}km/h</span>
+
+                <svg class="icon__small">
+                  <use xlink:href="sprite.svg#compass"></use>
                 </svg>
                 <span>${(0, _utils.widnDirection)(data.today.wind_deg)}</span>
+                <svg class="icon__small" viewBox="0 0 32 32" id="compass">
+                <use xlink:href="sprite.svg#air"></use>
+              </svg>
                 <span>${data.today.clouds}</span>
                 </div>
                 </div>
@@ -2850,7 +2867,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "12414" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3327" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

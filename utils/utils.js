@@ -105,7 +105,7 @@ export const getPartOfTheDay = (data) => {
         return data.day;
     } else if (hour > 17 && hour < 23) {
         return data.eve;
-    } else if (hour > 23 && hour < 4) {
+    } else if (hour > 23 || hour >= 0 || hour < 4) {
         return data.night;
     }
 };

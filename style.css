@@ -118,19 +118,23 @@ form input[type="submit"] {
     position: relative;
 }
 
-.find-location input[type="text"] {
-    width: 100%;
-    padding: 2rem 5rem 2rem 2rem;
+.find-location {
+    display: flex;
+    justify-content: space-between;
     background: white;
+    padding: 1rem;
+    border-radius: 1.5rem;
+}
+
+.find-location input[type="text"] {
+    background: white;
+    flex: 8;
     color: var(--bg-color);
 }
 
 .find-location input[type="submit"] {
-    position: absolute;
-    top: 0.4rem;
-    right: 20rem;
-    bottom: 0.6rem;
-    padding: 0 4rem;
+    flex: 1;
+    padding: 1.5rem 1.5rem;
 }
 
 .forecast-container {
@@ -300,15 +304,9 @@ form input[type="submit"] {
     animation: loading 1.5s infinite linear;
 }
 
-.icon__small {
-    height: 2.5rem;
-    width: 2.5rem;
-    fill: var(--strong-color);
-}
-
 .icon__section-today span,
 .wind-icons span {
-    margin-left: -4rem;
+    margin-left: -2rem;
 }
 
 .city__woied {
@@ -351,4 +349,11 @@ form input[type="submit"] {
 
 small:first-child {
     margin-bottom: 0.5rem;
+}
+
+.icon__small {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-right: 1rem;
+    fill: var(--strong-color);
 }

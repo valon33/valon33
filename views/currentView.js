@@ -2,7 +2,7 @@ import { elements } from "../utils/utils";
 import plusOutline from "../img/svg/plus-outline";
 // import plusOutline from "./img/svg/plus-outline";
 
-export const weatherBasedOnGeoLocation = res => {
+export const weatherBasedOnGeoLocation = (res) => {
     const markup = `
 
   <div class="forecast__geolocation-today">
@@ -14,9 +14,22 @@ export const weatherBasedOnGeoLocation = res => {
         </div>
       </div>
       <div class="icon__section-today">
-      <span><img src="../img/icon-umberella.png" alt="">${res.humidity}</span>
-      <span><img src="../img/icon-wind.png" alt="">${res.windSpeed}</span>
-      <span><img src="../img/icon-compass.png" alt="">${res.windSpeed}</span>
+
+      <span>
+      <svg class="icon__small">
+      <use xlink:href="sprite.svg#umbrella"></use>
+      </svg>
+      ${res.humidity}%
+      </span>
+      <span>
+      <svg class="icon__small">
+      <use xlink:href="sprite.svg#wind"></use>
+      </svg>
+      ${res.windSpeed}</span>
+      <span><svg class="icon__small">
+      <use xlink:href="sprite.svg#compass"></use>
+      </svg>
+      ${res.windSpeed}</span>
     </div>
   </div>
 </div>
@@ -26,7 +39,7 @@ export const weatherBasedOnGeoLocation = res => {
 };
 
 export const adIcon = () => {
-    const markup = ` 
+    const markup = `
       <svg  class="icon__add" viewBox="0 0 100 100">
         <use xlink:href="${plusOutline}"></use>
       </svg>
