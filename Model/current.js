@@ -5,11 +5,9 @@ export async function getWeatherAW(lat, lng) {
   const result = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${mathceillat}&lon=${mathceillng}&units=metric&APPID=${key}
     `
-    // `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
   );
 
   const data = await result.json();
-  // console.log(data);
 
   const res = {
     temp: Math.round(data.main.temp),
@@ -26,18 +24,6 @@ export async function getWeatherAW(lat, lng) {
     name: data.name,
     country: data.sys.country,
   };
-  // console.log(res);
 
   return res;
 }
-
-// const getIcon = async () => {
-//     const result = await fetch(
-//         `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/10d@2x.png
-//         `
-//     );
-//     const d = await result;
-//     console.log(result);
-// };
-
-// getIcon();

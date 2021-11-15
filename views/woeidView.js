@@ -15,7 +15,7 @@ const createDay = (data) => {
         <div class="forecast-content-other">
           <div class="forecast-icon">
             <img
-              src="http://openweathermap.org/img/wn/${
+              src="https://openweathermap.org/img/wn/${
                 data.weather[0].icon
               }@2x.png"
               alt=""
@@ -50,7 +50,7 @@ export const woeidToday = (name, country, data) => {
                       <div class="num">${Math.round(part)}&#176;C</div>
                       <div class="forecast-icon">
                         <img
-                          src="http://openweathermap.org/img/wn/${
+                          src="https://openweathermap.org/img/wn/${
                             data.today.weather[0].icon
                           }@2x.png"
                           alt=""
@@ -95,4 +95,3 @@ export const woeidToday = (name, country, data) => {
 
   elements.body.innerHTML = markup;
 };
-

@@ -171,10 +171,8 @@ async function getWeatherAW(lat, lng) {
   const mathceillng = Math.ceil(lng);
   const key = "c3ec3275ce5f8cd5db0d598678dd0825";
   const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${mathceillat}&lon=${mathceillng}&units=metric&APPID=${key}
-    ` // `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=${key}
-  );
-  const data = await result.json(); // console.log(data);
-
+    `);
+  const data = await result.json();
   const res = {
     temp: Math.round(data.main.temp),
     temp1: data.main.temp,
@@ -189,18 +187,9 @@ async function getWeatherAW(lat, lng) {
     id: data.id,
     name: data.name,
     country: data.sys.country
-  }; // console.log(res);
-
+  };
   return res;
-} // const getIcon = async () => {
-//     const result = await fetch(
-//         `https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/wn/10d@2x.png
-//         `
-//     );
-//     const d = await result;
-//     console.log(result);
-// };
-// getIcon();
+}
 },{}],"img/svg/spinner9.svg":[function(require,module,exports) {
 module.exports = '#72cda10f669f41d1d88aad2795c06112';
 },{}],"utils/utils.js":[function(require,module,exports) {
@@ -360,7 +349,7 @@ const weatherBasedOnGeoLocation = res => {
         <div class="num__today-temp">${res.temp}<sup>o</sup>C</div>
         <div class="forecast__icon-today">
           <img
-            src="http://openweathermap.org/img/wn/${res.icon}@2x.png"
+            src="https://openweathermap.org/img/wn/${res.icon}@2x.png"
             alt=""
             class="img"
           />
@@ -2518,16 +2507,11 @@ class Search {
   }
 
   async getResults() {
-    console.log(this.query);
     const key = "0a2612723b6d6bd2a53dad2bdd77cba5";
 
     try {
-      const res = await _axios.default.get(`https://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`); // .then((res) => console.log(res.data));
-
-      console.log(res.data);
-      this.data = res.data; //     this.name = res.data[0].title;
-      //     this.woeid = res.data[0].woeid;
-      //     this.lantLang = res.data[0].latt_long;
+      const res = await _axios.default.get(`https://api.openweathermap.org/geo/1.0/direct?q=${this.query}&limit=5&appid=${key}`);
+      this.data = res.data;
     } catch (error) {
       console.log(error);
     }
@@ -2560,13 +2544,11 @@ class WoeID {
 
     try {
       const res = await _axios.default.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.lat}&lon=${this.lon}&units=metric&exclude=${part}&appid=${key}`);
-      console.log(res);
       this.data = {
         current: res.data.current,
         today: res.data.daily[0],
         daily: res.data.daily.slice(1)
       };
-      console.log(this.data);
     } catch (error) {
       console.log(error);
     }
@@ -2657,7 +2639,7 @@ const createDay = data => {
         <div class="forecast-content-other">
           <div class="forecast-icon">
             <img
-              src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
+              src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"
               alt=""
               width="90"
             />
@@ -2688,7 +2670,7 @@ const woeidToday = (name, country, data) => {
                       <div class="num">${Math.round(part)}&#176;C</div>
                       <div class="forecast-icon">
                         <img
-                          src="http://openweathermap.org/img/wn/${data.today.weather[0].icon}@2x.png"
+                          src="https://openweathermap.org/img/wn/${data.today.weather[0].icon}@2x.png"
                           alt=""
                           width="90"
                         />
@@ -2754,14 +2736,12 @@ var _woeidView = require("./views/woeidView");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const state = {};
-console.log(state);
 
 const weatherOnGeoLocation = async () => {
   const {
     lat,
     long
   } = await (0, _location.getCoords)();
-  console.log(lat, long);
   (0, _utils.renderLoader)(_utils.elements.body);
 
   try {
@@ -2788,7 +2768,6 @@ _utils.elements.addIcon.addEventListener("click", e => {
 const controlSearch = async () => {
   // 1) Get query from view
   const query = await (0, _searchView.getInput)();
-  console.log(query);
 
   if (query) {
     state.search = new _search.default(query);
@@ -2820,7 +2799,6 @@ const queryCityData = async () => {
     await state.d.getResults();
     (0, _utils.clearPage)();
     (0, _utils.renderLoader)(_utils.elements.body);
-    console.log("ho be", state.d);
 
     if (state.d) {
       (0, _utils.clearLoader)();
@@ -2840,7 +2818,6 @@ const cityController = async citiesArray => {
     state.d = new _woeId.default(data);
     queryCityData();
   }));
-  console.log("State Manaxhment", state);
 };
 
 _utils.elements.body.addEventListener("click", e => {
@@ -2881,7 +2858,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49503" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53823" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

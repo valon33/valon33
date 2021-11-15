@@ -9,7 +9,7 @@ export const weatherBasedOnGeoLocation = (res) => {
         <div class="num__today-temp">${res.temp}<sup>o</sup>C</div>
         <div class="forecast__icon-today">
           <img
-            src="http://openweathermap.org/img/wn/${res.icon}@2x.png"
+            src="https://openweathermap.org/img/wn/${res.icon}@2x.png"
             alt=""
             class="img"
           />
